@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <style>
+        /* body */
+        body{
+            font-family: system-ui, sans-serif;
+            background-color: #f4f4f9;
+            /* color: white; */
+        }
+        
+        /* heading */
+        .header{
+            text-align: center;
+            color: black;
+        }
+        
+        /* form heading */
+        h2 {
+            margin-bottom: 5px;
+            /* text-align: center; */
+            color: #000080;
+        }
+
+        /* font for the form */
+        input,select, textarea{
+            font-family: inherit;
+            background-color: #ccc;
+            border: none;
+            padding: 5px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            outline: none;
+            color: black;
+            font-size: 1.3em;
+        }
+
+        /* form */
+        form{
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            justify-content: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 10px auto;
+            margin-top: 60px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        button{
+            background-color: #7231b3;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            border: none;
+            color: white;
+            transform: transform 0.s ease;
+            font-size: 1.2em;            
+        }
+
+        button:hover{
+            background-color: #503482;
+        }
+
+        button:active{
+            transform: scale(0.95);
+        }
+
+        #message{
+            text-align: center;
+        }
+
+        .error-text{
+            color: #e53e3e;
+        }
+
+        .success-text{
+            color: #00c853;
+        }
+
+        /* #toggleText{
+            color: #00c853;
+            text-align: center;
+            cursor: pointer;
+            margin: 5px 0;
+            padding: 0;
+            font-size: 0.9em;
+        } */
+
+        a {
+            color: #503482;
+            text-align: right
+        }
+
+        #toggleText{
+            color: #00c853;
+            text-align: center;
+            cursor: pointer;
+            margin: 5px 0;
+            padding: 0;
+            font-size: 0.9em;
+        }
+        .password-container{
+            position: relative;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .password-container input{
+            width: 100%;
+            box-sizing: border-box;
+            padding-right: 40px;
+            margin-bottom: 0;
+        }
+
+        .toggle-password{
+            position:absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Hide browser eye icon in Chrome, Safari */
+        input::-webkit-credentials-filter-mobile-button,
+        input::-webkit-password-toggle-button {
+            display: none !important;
+        }
+
+        /* Hide browser eye in Edge */
+        input::-ms-reveal, 
+        input::-ms-clear {
+            display: none !important;
+        }
+    </style>
+
+    <body>
+        <div>
+            <h2 class="header">NSUK ATTENDANCE ADMIN</h2>
+            <hr>
+            <form id="loginForm">
+                <h2>Welcome</h2>
+                <p>Login as an admin</p>
+                <input type="text" id="staffID" placeholder="Input your Staff ID" required>
+                <div class="password-container">
+                    <input type="password" id="password" placeholder=" Input your password" required>
+                    <span class="toggle-password" id="eyeToggle1">O</span>
+                </div>
+                <button type="submit">Log In</button>
+                <p id="message"></p>
+                <a href="lecturer_sign_up.html">Don't have an account? Sign up</a>
+            </form>
+        </div>
+
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+        <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyAMjDX6bG3Fh2BGQR7K-DGPS5iR-qiHOMA",
+                authDomain: "the-g-project-804bc.firebaseapp.com",
+                projectId: "the-g-project-804bc",
+                storageBucket: "the-g-project-804bc.firebasestorage.app",
+                messagingSenderId: "911853210755",
+                appId: "1:911853210755:web:786fd04de6a09c0e2b5fb6",
+                measurementId: "G-RFH41L3PC1"
+            };    
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+            
+            const loginForm = document.getElementById('loginForm');
+            const staffID = document.getElementById('staffID');
+            const passwordInput = document.getElementById('password');
+            const message = document.getElementById('message');
+            const eyeToggle1 = document.getElementById('eyeToggle1');
+
+            if (eyeToggle1) {
+                eyeToggle1.addEventListener('click', () => {
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        eyeToggle1.textContent = 'Ø';
+                    } else {
+                        passwordInput.type = 'password';
+                        eyeToggle1.textContent = 'O';
+                    }
+                });
+            }
+
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                
+                message.textContent = "";
+                message.className = "";
+
+                const staffIDValue = staffID.value;
+                const simulatedEmail = `${staffIDValue}@faculty.school.com`;
+                const password = passwordInput.value;
+
+                message.textContent = "Verifying credentials...";
+                message.className = "success-text";
+
+                auth.signInWithEmailAndPassword(simulatedEmail, password)
+                .then((userCredential) => {
+                    message.textContent = "Login successful! Redirecting...";
+                    message.className = "success-text";
+                    loginForm.reset();
+
+                    setTimeout(() => {
+                        window.location.href = "lecturer_dashboard.html";
+                    }, 1200);
+                })
+                .catch((error) => {
+                    message.className = "error-text";
+                    
+                    if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                        message.textContent = "Invalid matric number or password.";
+                    } else {
+                        message.textContent = "Account not found or details are incorrect.";
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

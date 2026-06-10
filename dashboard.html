@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>dashboard</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <style>
+        /* body */
+        body{
+            font-family: system-ui, sans-serif;
+            background-color: #f4f4f9;
+            color: black;
+        }
+
+        /* nav bar */
+        nav{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.539);
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid #503482;
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .brand{
+            font-weight: bold;
+        }
+
+        .name{
+            color: #503482;
+            font-weight: bold;
+        }
+        h2{
+            margin-top: 20px;
+        }
+
+        /* overall  cards */
+        .all-cards{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+            align-items: flex-start;
+        }
+        
+        /* individual course cards */
+        .course-card{
+            background-color: white;
+            padding: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 300px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid #503482;
+            border-top: 1px solid #503482;
+        }
+
+        /* hide extra menu */
+        .course-accordion{
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        /* show the dropdown menu */
+        .course-card.active .course-accordion{
+            max-height: 200px;
+            opacity: 1;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        /* dropdown menu text */
+        p{
+            font-weight: normal;
+            margin-top: 0px;
+            margin-bottom: 5px;
+        }
+
+        /* pill text */
+        .pill-text{
+            display: block;
+            width: max-content;
+            margin: 10px auto 0 auto;
+            background-color: #503482;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 980px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        button{
+            background-color: #7231b3;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            /* margin-top: 10px; */
+            border: none;
+            color: white;
+            transform: transform 0.s ease;
+            font-size: 15px;
+            margin: 15px auto 0 auto;
+        }
+
+        button:hover{
+            background-color: #503482;
+        }
+
+        button:active{
+            transform: scale(0.95);
+        }
+    </style>
+
+
+
+<body>
+        <nav>
+            <div class="brand">NSUK Attendance system</div>
+            <div class="name" id="user-firstname-display">Hello,</div>
+        </nav>
+
+        <h2>Available Courses</h2>
+
+        <div class="all-cards">
+            <div class="course-card" onclick= "toggleCourse(this)">
+                MTH 211: Mathematical Methods 1
+
+                <div class="course-accordion">
+                    <p>Click to take MTH211 attendance</p>
+                    <span class="pill-text">Status: Attendance not taken</span>
+                    <button onclick="takeAttendance(event, this, 'MTH211' )">Take attendance</button>
+                </div>
+            </div>
+
+
+            <div class="course-card" onclick= "toggleCourse(this)">
+                GST 212: Philosophy, Logic and Human Existence
+
+                <div class="course-accordion">
+                    <p>Click to take GST212 attendance</p>
+                    <span class="pill-text">Status: Attendance not taken</span>
+                    <button onclick="takeAttendance(event, this, 'GST212' )">Take attendance</button>
+                </div>
+            </div>
+
+            <div class="course-card" onclick= "toggleCourse(this)">
+                CSC212: Discrete Structure
+
+                <div class="course-accordion">
+                    <p>Click to take CSC212 attendance</p>
+                    <span class="pill-text">Status: Attendance not taken</span>
+                    <button onclick="takeAttendance(event, this, 'CSC212' )">Take attendance</button>
+                </div>
+            </div>
+
+            <div class="course-card" onclick= "toggleCourse(this)">
+                SEN211: Software Development
+
+                <div class="course-accordion">
+                    <p>Click to take SEN211 attendance</p>
+                    <span class="pill-text">Status: Ongoing</span>
+                    <button onclick="takeAttendance(event, this, 'SEN211' )">Take attendance</button>
+                </div>
+            </div>
+
+            <div class="course-card" onclick= "toggleCourse(this)">
+                IFT211: Digital Logic design 
+
+                <div class="course-accordion">
+                    <p>Click to take IFT211 attendance</p>
+                    <span class="pill-text">Status: Ongoing</span>
+                    <button onclick="takeAttendance(event, this, 'IFT211' )">Take attendance</button>
+                </div>
+            </div>
+
+            <div class="course-card" onclick= "toggleCourse(this)">
+                CYB211: Introduction to Cybersecurity
+
+                <div class="course-accordion">
+                    <p>Click to take CYB211 attendance</p>
+                    <span class="pill-text">Status: Ongoing</span>
+                    <button onclick="takeAttendance(event, this, 'CYB211' )">Take attendance</button>
+                </div>
+            </div>
+
+            <div class="course-card" onclick= "toggleCourse(this)">
+                NS-CSC211: Front-End Web Development 
+
+                <div class="course-accordion">
+                    <p>Click to take NS-CSC211 attendance</p>
+                    <span class="pill-text">Status: Ongoing</span>
+                    <button onclick="takeAttendance(event, this, 'NS-CSC211' )">Take attendance</button>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+        
+        <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyAMjDX6bG3Fh2BGQR7K-DGPS5iR-qiHOMA",
+                authDomain: "the-g-project-804bc.firebaseapp.com",
+                projectId: "the-g-project-804bc",
+                storageBucket: "the-g-project-804bc.firebasestorage.app",
+                messagingSenderId: "911853210755",
+                databaseURL: "https://the-g-project-804bc-default-rtdb.firebaseio.com",
+                appId: "1:911853210755:web:786fd04de6a09c0e2b5fb6",
+                measurementId: "G-RFH41L3PC1"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+            const auth = firebase.auth();
+
+            const venueGeofences =  { 
+                "MTH211": { lat: 8.847100, lon: 7.877600, venue: "LT1" },
+                "GST212": { lat: 8.842919, lon: 7.908852, venue: "Auditorium" },
+                "CSC212": { lat: 8.847100, lon: 7.877600, venue: "LT1" },
+                "SEN211": { lat: 8.841153, lon: 7.906256, venue: "Software Lab" },
+                "IFT211": { lat: 8.845385, lon: 7.878385, venue: "LT2" },
+                "CYB211": { lat: 8.841237, lon: 7.908366, venue: "CS E-Library" },
+                "NS-CSC211": { lat: 8.841063, lon: 7.908445, venue: "Software Lab" }
+            };
+            const radius = 0.0010;
+
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    database.ref('users/' + user.uid).once('value').then((snapshot) => {
+                        const data = snapshot.val();
+                        if (data) {
+                            const firstName = data.firstName || data.firstname || "Student";
+                            document.getElementById('user-firstname-display').innerText = "Hello, " + firstName;
+                        }
+                    }).catch((error) => {
+                        console.error("Could not fetch user name:", error);
+                    });
+                }
+            });
+
+            function toggleCourse(element) {
+                if (event.target.closest('.course-accordion')) return;
+                element.classList.toggle('active');
+            }
+
+            function takeAttendance(event, button, courseCode) {
+    const card = button.closest('.course-card');
+    const pill = card.querySelector('.pill-text');
+
+    const user = auth.currentUser;
+    if (!user) {
+        pill.innerText = "Error: Not logged in";
+        return;
+    }
+
+    pill.innerText = "⏳ Checking profile...";
+
+    database.ref('users/' + user.uid).once('value').then((snapshot) => {
+        const studentData = snapshot.val();
+        
+        if (!studentData) {
+            pill.innerText = "Profile not found";
+            return;
+        }
+
+        // --- 1. THE GPS BYPASS JUMP FOR YOUR HARDCODED COURSES ---
+        if (courseCode === 'SEN211' || courseCode === 'NS-CSC211') {
+            pill.innerText = "Processing...";
+            logToFirebase(studentData, courseCode, "Bypassed", "Bypassed", button, pill);
+        } else {
+            // --- 2. STANDARD BEHAVIOR (WITH THE GEOFENCE LOCK) ---
+            pill.innerText = "Fetching Location...";
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        // Look up the specific classroom coordinates you set up at the top
+                        const fence = venueGeofences[courseCode];
+                        if (fence) {
+                            // Run the math check against your 0.0010 radius limit
+                            const distance = Math.sqrt(Math.pow(lat - fence.lat, 2) + Math.pow(lon - fence.lon, 2));
+                            
+                            // If they are outside the classroom, throw the error and exit
+                            if (distance > radius) {
+                                pill.innerText = `❌ Error: Not inside ${fence.venue}`;
+                                pill.style.backgroundColor = "#d32f2f";
+                                return; // Hard stop: logs nothing to Firebase
+                            }
+                        }
+
+                        // If they pass the fence check, sign them in!
+                        logToFirebase(studentData, courseCode, lat, lon, button, pill);
+                    },
+                    (error) => {
+                        pill.innerText = "Location denied/Error";
+                    },
+                    { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
+                );
+            } else {
+                pill.innerText = "GPS not supported";
+            }
+        }
+
+    }).catch((error) => {
+        pill.innerText = "Database Error";
+    });
+}
+
+            function logToFirebase(studentData, courseCode, lat, lon, button, pill) {
+                const timestamp = new Date().toLocaleString();
+
+                database.ref('attendance/' + courseCode).push({
+                    firstName: studentData.firstName || studentData.firstname || "N/A",
+                    surname: studentData.surname || studentData.lastName || "N/A",
+                    matricNo: studentData.matricNumber || studentData.matricNo || "N/A",
+                    latitude: lat,
+                    longitude: lon,
+                    timeSigned: timestamp,
+                    status: "Present"
+                }).then(() => {
+
+                    pill.innerText = "Status: Attendance Taken";
+                    pill.style.backgroundColor = "#6c757d"; 
+                    
+                    button.innerText = "Present";
+                    button.style.backgroundColor = "#6c757d";
+                    button.style.cursor = "not-allowed";
+                    button.disabled = true;
+                }).catch((error) => {
+                    pill.innerText = "Network Error: Failed to log";
+                    pill.style.backgroundColor = "#d32f2f";
+                });
+            }
+        </script>
+    </body>
+</html>

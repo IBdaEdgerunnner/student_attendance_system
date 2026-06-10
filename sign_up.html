@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sign up</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <style>
+        /* body */
+        body{
+            font-family: system-ui, sans-serif;
+            background-color: #f4f4f9;
+            /* color: white; */
+        }
+        
+        /* heading */
+        h2 {
+            margin-bottom: 5px;
+            /* text-align: center; */
+            color: #000080;
+        }
+
+        /* font for the form */
+        input,select, textarea{
+            font-family: inherit;
+            background-color: #ccc;
+            border: none;
+            padding: 5px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            outline: none;
+            color: black;
+            font-size: 1.3em;
+        }
+
+        /* form */
+        form{
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            justify-content: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 10px auto;
+            margin-top: 60px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        button{
+            background-color: #7231b3;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            border: none;
+            color: white;
+            transform: transform 0.s ease;
+            font-size: 1.2em;            
+        }
+
+        button:hover{
+            background-color: #503482;
+        }
+
+        button:active{
+            transform: scale(0.95);
+        }
+        #message{
+            text-align: center;
+        }
+
+        .error-text{
+            color: #e53e3e;
+        }
+
+        .success-text{
+            color: #00c853;
+        }
+
+        #toggleText{
+            color: #00c853;
+            text-align: center;
+            cursor: pointer;
+            margin: 5px 0;
+            padding: 0;
+            font-size: 0.9em;
+        }
+        .password-container{
+            position: relative;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .password-container input{
+            width: 100%;
+            box-sizing: border-box;
+            padding-right: 40px;
+            margin-bottom: 0;
+        }
+
+        .toggle-password{
+            position:absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Hide the browser eye icon in Chrome, Safari */
+        input::-webkit-credentials-filter-mobile-button,
+        input::-webkit-password-toggle-button {
+            display: none !important;
+        }
+
+        /* Hides the browser eye icon in Edge */
+        input::-ms-reveal, 
+        input::-ms-clear {
+            display: none !important;
+        }
+    </style>
+
+    <body>
+        <div>
+            <form id="loginForm">
+                <h2>Create account</h2>
+                <input type="text" id="firstName" placeholder="Input your first name" required>
+                <input type="text" id="lastName" placeholder="Input your last name" required>
+                <input type="text" id="matric" placeholder="Input your matric number" required>
+                <div class="password-container">
+                    <input type="password" id="password" placeholder=" Create password" required>
+                    <span class="toggle-password" id="eyeToggle1">O</span>
+                </div>
+                <div class="password-container">
+                    <input type="password" id="confirmPassword" placeholder=" Confirm your password" required>
+                    <span class="toggle-password" id="eyeToggle2">O</span>
+                </div>
+                <button type="submit">Sign up</button>
+                <p id="message"></p>
+            </form>
+        </div>
+
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+        <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyAMjDX6bG3Fh2BGQR7K-DGPS5iR-qiHOMA",
+                authDomain: "the-g-project-804bc.firebaseapp.com",
+                projectId: "the-g-project-804bc",
+                storageBucket: "the-g-project-804bc.firebasestorage.app",
+                messagingSenderId: "911853210755",
+                appId: "1:911853210755:web:786fd04de6a09c0e2b5fb6",
+                measurementId: "G-RFH41L3PC1",
+                databaseURL: "https://the-g-project-804bc-default-rtdb.firebaseio.com",
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+            const database = firebase.database();
+
+            const signupForm = document.getElementById('loginForm');
+            const firstNameInput = document.getElementById('firstName');    
+            const lastNameInput = document.getElementById('lastName');
+            const usernameInput = document.getElementById('matric');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const message = document.getElementById('message');
+
+            const eyeToggle1 = document.getElementById('eyeToggle1');
+            const eyeToggle2 = document.getElementById('eyeToggle2');
+
+            eyeToggle1.addEventListener('click', () => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeToggle1.textContent = 'Ø';
+                } else {
+                    passwordInput.type = 'password';
+                    eyeToggle1.textContent = 'O';
+                }
+            });
+
+            eyeToggle2.addEventListener('click', () => {
+                if (confirmPasswordInput.type === 'password') {
+                    confirmPasswordInput.type = 'text';
+                    eyeToggle2.textContent = 'Ø';
+                } else {
+                    confirmPasswordInput.type = 'password';
+                    eyeToggle2.textContent = 'O';
+                }
+            });
+
+            signupForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                
+                message.textContent = "";
+                message.className = "";
+                
+                const firstName = firstNameInput.value;
+                const lastName = lastNameInput.value;
+                const matricNumber = usernameInput.value;
+                const simulatedEmail = `${matricNumber}@school.com`; 
+                const password = passwordInput.value;
+
+                if (password !== confirmPasswordInput.value) {
+                    message.textContent = "Passwords do not match!";
+                    message.className = "error-text";
+                    return;
+                }
+
+                if (password.length < 6) {
+                    message.textContent = "Password must be at least 6 characters.";
+                    message.className = "error-text";
+                    return;
+                }
+
+                message.textContent = "Creating your account...";
+                message.className = "success-text";
+
+                auth.createUserWithEmailAndPassword(simulatedEmail, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    database.ref('users/' + user.uid).set({
+                        firstName: firstName,
+                        surname: lastName,
+                        matricNo: matricNumber
+                    }).then(() => {
+                        message.textContent = "Account created successfully!";
+                        message.className = "success-text";
+                        signupForm.reset();
+    
+                        setTimeout(() => {
+                            window.location.href = "dashboard.html";
+                        }, 1500);
+                    }).catch((dbError) => {
+                        message.textContent = "Error Responding with server.";
+                        message.className = "error-text";
+                    })
+                })
+                .catch((error) => {
+                    message.className = "error-text";
+
+                    if (error.code === 'auth/email-already-in-use') {
+                        message.textContent = "This matric number is already registered.";
+                    } else if (error.code === 'auth/invalid-email') {
+                        message.textContent = "Please enter a valid matric number.";
+                    } else {
+                        message.textContent = error.message;
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
